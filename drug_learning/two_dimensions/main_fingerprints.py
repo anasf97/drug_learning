@@ -108,13 +108,13 @@ def main():
         mordred_fps.transform()
         mordred_fps.save(to_csv=opt.to_csv, to_parquet=opt.to_parquet, to_feather=opt.to_feather, to_hdf=opt.to_hdf, to_pickle=opt.to_pickle)
 
-    if options.unfolded_rdkit:
-        if not options.voc:
+    if opt.unfolded_rdkit:
+        if not opt.voc:
             raise er.NotVocabularyUnfolded("Vocabulary (--voc) must be pass to use unfolded rdkit fingerprints")
-        mordred_fps = fp.UnfoldedRDkitFP(options.voc)
-        mordred_fps.fit(options.infile)
-        mordred_fps.transform()
-        mordred_fps.save(to_csv=False, to_parquet=True, to_feather=False, to_hdf=False, to_pickle=False)
+        unfolded_rdkit_fps = fp.UnfoldedRDkitFP(opt.voc)
+        unfolded_rdkit_fps.fit(opt.infile)
+        unfolded_rdkit_fps.transform()
+        unfolded_rdkit_fps.save(to_csv=opt.to_csv, to_parquet=opt.to_parquet, to_feather=opt.to_feather, to_hdf=opt.to_hdf, to_pickle=opt.to_pickle)
 
 if __name__ == "__main__":
     main()

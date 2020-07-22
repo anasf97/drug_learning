@@ -1,5 +1,5 @@
 import numpy as np
-import os
+from scipy import stats
 from rdkit.Chem import RDKFingerprint
 from rdkit.Chem import AllChem
 from rdkit.Chem import MACCSkeys
@@ -68,8 +68,8 @@ class UnfoldedRDkitFP(bc.Fingerprint):
 
     fp_name = "_UnfoldedRDkitFP"
 
-
     def __init__(self, voc):
+        super().__init__()
         filename, file_extension = os.path.splitext(voc)
         if file_extension != ".npy":
             er.IncorrectFormat("Vocabulary must be an npy file (numpy.save)")
