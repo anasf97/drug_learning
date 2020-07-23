@@ -130,3 +130,7 @@ if __name__ == "__main__":
     y_sars1 = df_sars1["Is_active"].to_numpy()
     y_sars12 = np.repeat(y_sars1, 3, axis=0)
     AD = ad.ApplicabilityDomain(sars1, y_sars12, sars2)
+    AD.fit()
+    AD.predict()
+    AD.thresholds
+    AD.n_insiders

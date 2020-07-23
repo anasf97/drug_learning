@@ -44,7 +44,6 @@ class ApplicabilityDomain():
 
         for i, name in zip(d_train_test, test_names): # for each sample
             idxs = [j for j,d in enumerate(i[0]) if d <= self.thresholds[j]] #saving indexes of training with threshold < distance
-            print(len(idxs))
             count_active.append(len([self.y_train.tolist()[i] for i in idxs if self.y_train[i] == 1]))
             count_inactive.append(len([self.y_train.tolist()[i] for i in idxs if self.y_train[i] == 0]))
 
