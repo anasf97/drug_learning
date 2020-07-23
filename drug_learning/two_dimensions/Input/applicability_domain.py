@@ -8,8 +8,7 @@ class ApplicabilityDomain():
         self.y_train = y_train
         self.x_test = x_test
 
-
-    def fit_training(self):
+    def fit(self):
         distances = np.array([distance.cdist([x], self.x_train) for x in self.x_train])
         distances_sorted = [np.sort(d[0]) for d in distances]
         d_no_ii = [ d[1:] for d in distances_sorted]
@@ -37,15 +36,15 @@ class ApplicabilityDomain():
         self.thresholds[np.isinf(self.thresholds)] = min(self.thresholds) #setting to the minimum value where infinity
         return self.thresholds
 
-    def assess_test(self):
+    def predict(self):
         test_names= ["sample_{}".format(i) for i in range(self.x_test.shape[0])]
         d_train_test = np.array([distance.cdist([x], self.x_train) for x in self.x_test])
-
         count_active = []
         count_inactive = []
 
         for i, name in zip(d_train_test, test_names): # for each sample
             idxs = [j for j,d in enumerate(i[0]) if d <= self.thresholds[j]] #saving indexes of training with threshold < distance
+            print(len(idxs))
             count_active.append(len([self.y_train.tolist()[i] for i in idxs if self.y_train[i] == 1]))
             count_inactive.append(len([self.y_train.tolist()[i] for i in idxs if self.y_train[i] == 0]))
 

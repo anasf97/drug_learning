@@ -4,6 +4,7 @@ from rdkit.Chem import RDKFingerprint
 from rdkit.Chem import AllChem
 from rdkit.Chem import MACCSkeys
 from rdkit.Chem import DataStructs
+from rdkit.Chem.rdchem import AtomSanitizeException, KekulizeException
 from mordred import Calculator, descriptors
 from drug_learning.two_dimensions.Input import base_class as bc
 from drug_learning.two_dimensions.Errors import errors as er
@@ -17,7 +18,10 @@ class MorganFP(bc.Fingerprint):
         fts = []
         self.mol_names = []
         for mol in self.structures:
-            fp = AllChem.GetMorganFingerprintAsBitVect(mol,2,nBits=2048)
+            try:
+                fp = AllChem.GetMorganFingerprintAsBitVect(mol,2,nBits=2048)
+            except:
+                continue
             arr = np.zeros((0,), dtype=np.int8)
             DataStructs.ConvertToNumpyArray(fp,arr)
             fts.append(arr)

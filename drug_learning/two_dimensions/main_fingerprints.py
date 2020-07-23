@@ -1,5 +1,6 @@
 import argparse
 import drug_learning.two_dimensions.Input.fingerprints as fp
+import drug_learning.two_dimensions.Input.applicability_domain as ad
 import drug_learning.two_dimensions.Errors.errors as er
 
 def parse_arguments():
@@ -118,3 +119,14 @@ def main():
 
 if __name__ == "__main__":
     main()
+    mor = fp.MorganFP()
+    sars1 = mor.fit("../datasets/SAR1/3C-like_protease_GHDDI_ligprep.sdf")
+    sars1 = mor.transform()
+    sars2 = mor.fit("../datasets/SARS2/SIM_Broad_MProResults_ligprep.sd")
+    sars2 = mor.transform()
+    import pandas as pd
+    import numpy as np
+    df_sars1 = pd.read_csv("../datasets/SAR1/dataset_cleaned_SARS1.csv")
+    y_sars1 = df_sars1["Is_active"].to_numpy()
+    y_sars12 = np.repeat(y_sars1, 3, axis=0)
+    AD = ad.ApplicabilityDomain(sars1, y_sars12, sars2)
