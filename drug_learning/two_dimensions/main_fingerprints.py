@@ -119,17 +119,21 @@ def main():
 
 if __name__ == "__main__":
     main()
-    mor = fp.MorganFP()
-    sars1 = mor.fit("../datasets/SAR1/3C-like_protease_GHDDI_ligprep.sdf")
-    sars1 = mor.transform()
-    sars2 = mor.fit("../datasets/SARS2/SIM_Broad_MProResults_ligprep.sd")
-    sars2 = mor.transform()
+    # mor = fp.MorganFP()
+    # sars1 = mor.fit("../datasets/SAR1/3C-like_protease_GHDDI_ligprep.sdf")
+    # sars1 = mor.transform()
+    # sars2 = mor.fit("../datasets/SARS2/SIM_Broad_MProResults_ligprep.sd")
+    # sars2 = mor.transform()
     import pandas as pd
     import numpy as np
-    df_sars1 = pd.read_csv("../datasets/SAR1/dataset_cleaned_SARS1.csv")
-    y_sars1 = df_sars1["Is_active"].to_numpy()
-    y_sars12 = np.repeat(y_sars1, 3, axis=0)
-    AD = ad.ApplicabilityDomain(sars1, y_sars12, sars2)
+    import os
+    PATH_DATA_SARS2 = "../datasets/SARS2/"
+    PATH_DATA_SARS1 = "../datasets/SAR1/"
+    features_SARS2 = np.load(os.path.join(PATH_DATA_SARS2, "features_SARS2.npy"))
+    features_SARS1 = np.load(os.path.join(PATH_DATA_SARS1, "features_SARS1.npy"))
+    data_SARS1 = pd.read_csv(os.path.join(PATH_DATA_SARS1, "dataset_cleaned_SARS1.csv"))
+    active_SARS1 = data_SARS1["Is_active"].values
+    AD = ad.ApplicabilityDomain(features_SARS1, active_SARS1, features_SARS2)
     AD.fit()
     AD.predict()
     AD.thresholds

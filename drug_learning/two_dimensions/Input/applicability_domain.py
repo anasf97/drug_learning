@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.spatial import distance
+from collections import Counter
 
 class ApplicabilityDomain():
 
@@ -31,6 +32,8 @@ class ApplicabilityDomain():
 
         #replacing 0's with the min val
         n_allowed = [n if n!= 0 else min_val[0] for n in n_allowed]
+        c = Counter(n_allowed)
+        print(c)
         all_d = [sum(all_allowed[i]) for i, d in enumerate(d_no_ii)]
         self.thresholds = np.divide(all_d, n_allowed) #threshold computation
         self.thresholds[np.isinf(self.thresholds)] = min(self.thresholds) #setting to the minimum value where infinity
@@ -46,6 +49,5 @@ class ApplicabilityDomain():
             idxs = [j for j,d in enumerate(i[0]) if d <= self.thresholds[j]] #saving indexes of training with threshold < distance
             count_active.append(len([self.y_train.tolist()[i] for i in idxs if self.y_train[i] == 1]))
             count_inactive.append(len([self.y_train.tolist()[i] for i in idxs if self.y_train[i] == 0]))
-
         self.n_insiders = np.array(count_active) + np.array(count_inactive)
         return self.n_insiders
