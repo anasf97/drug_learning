@@ -13,10 +13,10 @@ def morgan_fp(input_sdf):
     features = morgan.transform()
     return features
 
-def test_AD_fit(features = morgan_fp(MOLECULE1)):
+def test_AD_fit(features = morgan_fp(MOLECULE1), result = [0., 0.]):
     AD = mn.ad.ApplicabilityDomain()
     AD.fit(features)
-    assert np.all(AD.thresholds == np.array([0., 0.]))
+    assert np.all(AD.thresholds == np.array(result))
 
 @pytest.mark.parametrize( "features, other_features, result",
                             [
