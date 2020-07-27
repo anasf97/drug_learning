@@ -1,15 +1,15 @@
 import numpy as np
 from scipy.spatial import distance
-from collections import Counter
+
 
 class ApplicabilityDomain():
 
-    def __init__(self, x_train, y_train, x_test):
-        self.x_train = x_train
-        self.y_train = y_train
-        self.x_test = x_test
+    def __init__(self):
+        self.x_train = None
+        self.x_test = None
 
-    def fit(self):
+    def fit(self, x_train):
+        self.x_train = x_train
         distances = np.array([distance.cdist([x], self.x_train) for x in self.x_train])
         distances_sorted = [np.sort(d[0]) for d in distances]
         d_no_ii = [ d[1:] for d in distances_sorted]
@@ -32,22 +32,20 @@ class ApplicabilityDomain():
 
         #replacing 0's with the min val
         n_allowed = [n if n!= 0 else min_val[0] for n in n_allowed]
-        c = Counter(n_allowed)
-        print(c)
         all_d = [sum(all_allowed[i]) for i, d in enumerate(d_no_ii)]
         self.thresholds = np.divide(all_d, n_allowed) #threshold computation
         self.thresholds[np.isinf(self.thresholds)] = min(self.thresholds) #setting to the minimum value where infinity
         return self.thresholds
 
-    def predict(self):
+    def predict(self, x_test):
+        self.x_test = x_test
         test_names= ["sample_{}".format(i) for i in range(self.x_test.shape[0])]
         d_train_test = np.array([distance.cdist([x], self.x_train) for x in self.x_test])
-        count_active = []
-        count_inactive = []
+        self.n_insiders = []
 
         for i, name in zip(d_train_test, test_names): # for each sample
             idxs = [j for j,d in enumerate(i[0]) if d <= self.thresholds[j]] #saving indexes of training with threshold < distance
-            count_active.append(len([self.y_train.tolist()[i] for i in idxs if self.y_train[i] == 1]))
-            count_inactive.append(len([self.y_train.tolist()[i] for i in idxs if self.y_train[i] == 0]))
-        self.n_insiders = np.array(count_active) + np.array(count_inactive)
+            self.n_insiders.append(len(idxs))
+
+        self.n_insiders = np.array(self.n_insiders)
         return self.n_insiders
