@@ -7,25 +7,22 @@ DIR = os.path.dirname(__file__)
 MOLECULE1 = os.path.join(DIR, "data/test_ad_molecule1.sdf")
 MOLECULE2 = os.path.join(DIR, "data/test_ad_molecule2.sdf")
 
-def morgan_fp(input_sdf):
-    morgan = mn.fp.MorganFP()
-    morgan.fit(input_sdf)
-    features = morgan.transform()
-    return features
-
-def test_AD_fit(features = morgan_fp(MOLECULE1), result = [0., 0.]):
+def test_AD_fit(get_fingerprint, result = [0., 0.]):
     AD = mn.ad.ApplicabilityDomain()
-    AD.fit(features)
+    fingerprint = get_fingerprint(mn.fp.MorganFP, MOLECULE1)
+    AD.fit(fingerprint.features)
     assert np.all(AD.thresholds == np.array(result))
 
-@pytest.mark.parametrize( "features, other_features, result",
+@pytest.mark.parametrize( "molecule, other_molecule, result",
                             [
-                            (morgan_fp(MOLECULE1), morgan_fp(MOLECULE1), [2,2] ),
-                            (morgan_fp(MOLECULE1), morgan_fp(MOLECULE2), [0,0] ),
+                            (MOLECULE1, MOLECULE1, [2,2] ),
+                            (MOLECULE1, MOLECULE2, [0,0] ),
                             ]
-)
-def test_AD_predict(features, other_features, result):
+                        )
+def test_AD_predict(get_fingerprint, molecule, other_molecule, result):
     AD = mn.ad.ApplicabilityDomain()
-    AD.fit(features)
-    AD.predict(other_features)
+    fingerprint = get_fingerprint(mn.fp.MorganFP, molecule)
+    other_fingerprint = get_fingerprint(mn.fp.MorganFP, other_molecule)
+    AD.fit(fingerprint.features)
+    AD.predict(other_fingerprint.features)
     assert np.all(AD.n_insiders == np.array(result))
