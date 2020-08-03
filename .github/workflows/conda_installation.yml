@@ -1,0 +1,32 @@
+name: Conda Installation
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Include $CONDA in $PATH
+      run: |
+        echo ::add-path::$CONDA/bin
+        echo ::add-path::$CONDA/condabin
+    - name: Install dependencies
+      run: |
+        conda install numpy cython
+    - name: Install rdkit
+      run: |
+        conda install -c conda-forge rdkit
+    - name: Test with pytest
+      run: |
+        mkdir test_conda
+        cd test_conda
+        python drug_learning/two_dimensions/main_fingerprints.py
