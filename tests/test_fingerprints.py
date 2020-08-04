@@ -41,9 +41,3 @@ def test_fingerprint_save(get_fingerprint, csv, parquet, feather, hdf, pickle, e
     file = fingerprint.filename + fingerprint.fp_name + extension
     assert os.path.exists(file)
     os.remove(file)
-
-# def test_fingerprint_save(get_fingerprint, extensions = [".csv", ".gzip", ".ftr", ".hdf5", ".pkl"], molecule = MOLECULE):
-#     fingerprint = get_fingerprint(fp.MorganFP, molecule)
-#     fingerprint.save(to_csv= True, to_parquet= True, to_feather= True, to_hdf= True, to_pickle= True)
-#     for ext in extensions:
-#         assert os.path.exists(fingerprint.filename + fingerprint.fp_name + ext)

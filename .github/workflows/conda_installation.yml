@@ -19,14 +19,12 @@ jobs:
       run: |
         echo ::add-path::$CONDA/bin
         echo ::add-path::$CONDA/condabin
-    - name: Install dependencies
-      run: |
-        conda install numpy cython
     - name: Install rdkit
       run: |
         conda install -c conda-forge rdkit
+        conda install -c rdkit -c mordred-descriptor mordred
     - name: Test with pytest
       run: |
         mkdir test_conda
         cd test_conda
-        python drug_learning/two_dimensions/main_fingerprints.py
+        python ../drug_learning/two_dimensions/main_fingerprints.py --help
