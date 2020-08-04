@@ -8,7 +8,7 @@ setuptools.setup(name='drug_learning',
       author='Ana Sánchez',
       author_email='ana.sanchez01@estudiant.upf.edu',
       packages=setuptools.find_packages(),
-      install_requires=["numpy", "pandas", "scipy", "mordred", "pytest"],
+      install_requires=["numpy", "pandas", "scipy", "tables", "mordred", "pytest"],
       classifiers=[
        "Programming Language :: Python :: 3",
        "License :: OSI Approved :: MIT License",
