@@ -3,7 +3,7 @@ From python API
 
 Transform molecules into fingerprints
 --------------------------------------
-Create an object of a specific fingerprint class. Then use the ``fit`` method to load the sdf file, and ``transform``
+Create an object of an specific fingerprint. Then use the ``fit`` method to load the sdf file, and ``transform``
 to obtain the fingerprints.
 
 ::

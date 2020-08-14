@@ -4,8 +4,8 @@ import drug_learning.two_dimensions.Input.applicability_domain as ad
 import drug_learning.two_dimensions.Errors.errors as er
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Specifying the fingerprints to which the user wants the sdf file to be converted.")
-
+    parser = argparse.ArgumentParser(description="Specify the fingerprints and the file format to which the user wants the sdf file to be converted.\
+                                                  By default, the output format is parquet.")
     parser.add_argument('-i', '--input',
                         dest="infile",
                         action="store",
@@ -77,13 +77,11 @@ def parse_arguments():
                         default = False,
                         help = "Save output to pickle")
 
-
-    options = parser.parse_args()
-
-    return options
+    return parser
 
 def main():
-    opt = parse_arguments()
+    parser = parse_arguments()
+    opt = parser.parse_args()
 
     if opt.morgan:
         morgan_fps = fp.MorganFP()
