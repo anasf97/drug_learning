@@ -24,6 +24,9 @@ class Fingerprint(ot.Saver):
         if not self.fitted:
             raise er.NotFittedException("Must fit the model before transform")
 
+    def clean(self):
+        return self.features
+
     def save(self, to_csv=False, to_parquet=True, to_feather=False, to_hdf=False,
             to_pickle=False):
         if not self.mol_names:

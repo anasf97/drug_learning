@@ -112,3 +112,11 @@ class MordredFP(bc.Fingerprint):
         self.features = df.values
         self.mol_names = [mol.GetProp("_Name") for mol in self.structures]
         return self.features
+
+    def clean(self):
+        self.features = self.features.astype(float)
+        self.features[self.features > 1e3] = None
+        self.features = self.features[:, ~np.isnan(self.features).any(axis=0)]
+        mask = ~np.any(np.abs(stats.zscore(self.features)) > 2, axis=0)
+        self.features = self.features[:, mask]
+        return self.features
