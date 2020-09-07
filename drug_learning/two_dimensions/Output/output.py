@@ -1,8 +1,8 @@
 
 
 class Saver():
-    def __init__(self, df):
-        self.df = df
+    def __init__(self):
+        self.df = None
 
     def to_csv(self, output):
         self.df.to_csv(output)

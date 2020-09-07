@@ -117,10 +117,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # mor = fp.MorganFP()
-    # sars1 = mor.fit("test_ad_molecule1.sdf")
-    # sars1 = mor.transform()
-    #
     # sars2 = mor.fit("test_ad_molecule2.sdf")
     # sars2 = mor.transform()
     # import pandas as pd

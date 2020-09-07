@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from scipy import stats
 from rdkit.Chem import RDKFingerprint
 from rdkit.Chem import AllChem
@@ -76,7 +77,7 @@ class UnfoldedRDkitFP(bc.Fingerprint):
         super().__init__()
         filename, file_extension = os.path.splitext(voc)
         if file_extension != ".npy":
-            er.IncorrectFormat("Vocabulary must be an npy file (numpy.save)")
+            raise er.IncorrectFormat("Vocabulary must be an npy file (numpy.save)")
         self.voc = np.load(voc)
 
     def transform(self):
@@ -107,16 +108,20 @@ class MordredFP(bc.Fingerprint):
         super().transform()
         self.mol_names = []
         calc = Calculator(descriptors, ignore_3D=True)
-        df = calc.pandas(self.structures)
-        self.columns = df.columns
-        self.features = df.values
+        self.df = calc.pandas(self.structures)
+        self.columns = self.df.columns
+        self.features = self.df.values
         self.mol_names = [mol.GetProp("_Name") for mol in self.structures]
         return self.features
 
-    def clean(self):
-        self.features = self.features.astype(float)
-        self.features[self.features > 1e3] = None
-        self.features = self.features[:, ~np.isnan(self.features).any(axis=0)]
-        mask = ~np.any(np.abs(stats.zscore(self.features)) > 2, axis=0)
-        self.features = self.features[:, mask]
+    def clean(self):    
+        self.df = self.df.apply(pd.to_numeric, errors="coerce")
+        self.df = self.df.astype("float64")
+        self.df[self.df > 1e3] = None
+        self.df = self.df.dropna(axis=1)
+        mask = ~np.any(np.abs(stats.zscore(self.df)) < 2, axis=0)
+        self.df = self.df.drop(columns=self.df.columns[mask])
+
+        self.columns = self.df.columns
+        self.features = self.df.values
         return self.features
