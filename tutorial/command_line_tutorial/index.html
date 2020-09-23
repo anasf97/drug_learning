@@ -87,12 +87,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Getting Started</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../api_tutorial/index.html">From python API</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">From command line</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#transform-molecules-into-fingerprints">Transform molecules into fingerprints</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Positional Arguments">Positional Arguments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Named Arguments">Named Arguments</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Sub-commands:">Sub-commands:</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#transform-molecules-into-fingerprints">Transform molecules into fingerprints</a></li>
 </ul>
 </li>
 </ul>
@@ -170,97 +165,6 @@
 <div class="section" id="transform-molecules-into-fingerprints">
 <h2>Transform molecules into fingerprints<a class="headerlink" href="#transform-molecules-into-fingerprints" title="Permalink to this headline">¶</a></h2>
 <p>This function can also be used from the command line, just by running the following command along with the arguments explained below.</p>
-<p><p>Specify the fingerprints and the file format to which the user wants the sdf file to be converted.</p>
-</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">drug_learning</span><span class="o">.</span><span class="n">two_dimensions</span><span class="o">.</span><span class="n">main_fingerprints</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">N_WORKERS</span><span class="p">]</span>
-                                                      <span class="p">[</span><span class="o">-</span><span class="n">mo</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">ma</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">rd</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">md</span><span class="p">]</span>
-                                                      <span class="p">[</span><span class="o">-</span><span class="n">urd</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">voc</span> <span class="n">VOC</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="p">]</span>
-                                                      <span class="p">[</span><span class="o">-</span><span class="n">pq</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">hdf</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">pk</span><span class="p">]</span>
-                                                      <span class="n">infile</span> <span class="p">{</span><span class="n">split</span><span class="p">}</span> <span class="o">...</span>
-</pre></div>
-</div>
-<div class="section" id="Positional Arguments">
-<h3>Positional Arguments<a class="headerlink" href="#Positional Arguments" title="Permalink to this headline">¶</a></h3>
-<dl class="option-list">
-<dt><kbd>infile</kbd></dt>
-<dd><p>Input sdf file(s)</p>
-</dd>
-<dt><kbd>split</kbd></dt>
-<dd><p>Possible choices: split</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="Named Arguments">
-<h3>Named Arguments<a class="headerlink" href="#Named Arguments" title="Permalink to this headline">¶</a></h3>
-<dl class="option-list">
-<dt><kbd>-n, --nworkers</kbd></dt>
-<dd><p>Number of workers to parallelize the sdf transform into fingerprints</p>
-<p>Default: 1</p>
-</dd>
-<dt><kbd>-mo, --morgan</kbd></dt>
-<dd><p>Convert molecules to Morgan fingerprint</p>
-</dd>
-<dt><kbd>-ma, --maccs</kbd></dt>
-<dd><p>Convert molecules to MACCS fingerprint</p>
-</dd>
-<dt><kbd>-rd, --rdkit</kbd></dt>
-<dd><p>Convert molecules to RDkit fingerprint</p>
-</dd>
-<dt><kbd>-md, --mordred</kbd></dt>
-<dd><p>Convert molecules to Mordred fingerprint</p>
-</dd>
-<dt><kbd>-urd, --unfolded_rdkit</kbd></dt>
-<dd><p>Convert molecules to Unfolded RDkit fingerprint</p>
-</dd>
-<dt><kbd>-voc, --vocabulary</kbd></dt>
-<dd><p>Vocabulary for unfolded rdkit fingerprint</p>
-</dd>
-<dt><kbd>-c, --csv</kbd></dt>
-<dd><p>Save output to csv</p>
-<p>Default: False</p>
-</dd>
-<dt><kbd>-pq, --parquet</kbd></dt>
-<dd><p>Save output to parquet</p>
-<p>Default: False</p>
-</dd>
-<dt><kbd>-f, --feather</kbd></dt>
-<dd><p>Save output to feather</p>
-<p>Default: False</p>
-</dd>
-<dt><kbd>-hdf, --hdf</kbd></dt>
-<dd><p>Save output to hdf</p>
-<p>Default: False</p>
-</dd>
-<dt><kbd>-pk, --pickle</kbd></dt>
-<dd><p>Save output to pickle</p>
-<p>Default: False</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="Sub-commands:">
-<h3>Sub-commands:<a class="headerlink" href="#Sub-commands:" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="split">
-<h4>split<a class="headerlink" href="#split" title="Permalink to this headline">¶</a></h4>
-<p>Split the input sdf files into chunks</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drug_learning</span><span class="o">.</span><span class="n">two_dimensions</span><span class="o">.</span><span class="n">main_fingerprints</span> <span class="n">split</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">ch</span> <span class="n">N_CHUNKS</span><span class="p">]</span>
-                                                     <span class="p">[</span><span class="o">-</span><span class="n">nsp</span> <span class="n">NW_SP</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="section" id="Named Arguments_repeat1">
-<h5>Named Arguments<a class="headerlink" href="#Named Arguments_repeat1" title="Permalink to this headline">¶</a></h5>
-<dl class="option-list">
-<dt><kbd>-ch, --chunk</kbd></dt>
-<dd><p>Number of molecules in each chunk.</p>
-<p>Default: 1000</p>
-</dd>
-<dt><kbd>-nsp, --nworkers-sp</kbd></dt>
-<dd><p>Number of workers to parallelize the split into chunks.</p>
-<p>Default: 1</p>
-</dd>
-</dl>
-</div>
-</div>
-</div>
 </div>
 </div>
 
